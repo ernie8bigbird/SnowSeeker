@@ -9,7 +9,14 @@ import SwiftUI
 
 struct SideBySideView: View {
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        NavigationSplitView(columnVisibility: .constant(.all)) {
+            NavigationLink("Primary") {
+                Text("New View")
+            }
+        } detail: {
+            Text("Some Content")
+        }
+        .navigationSplitViewStyle(.balanced)
     }
 }
 
