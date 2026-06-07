@@ -19,6 +19,8 @@ struct SkiDetailsView: View {
                 Text("\(resort.elevation)m")
                     .font(.title3)
             }
+            .padding(10)
+            .glassEffect(.regular, in: .rect(cornerRadius: 16))
             
             VStack {
                 Text("Snow")
@@ -27,6 +29,8 @@ struct SkiDetailsView: View {
                 Text("\(resort.snowDepth)cm")
                     .font(.title3)
             }
+            .padding(10)
+            .glassEffect(.regular, in: .rect(cornerRadius: 16))
         }
         .frame(maxWidth: .infinity)
     }

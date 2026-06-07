@@ -11,6 +11,10 @@ struct ResortView: View {
     
     @Environment(\.horizontalSizeClass) var horizontalSizeClass
     @Environment(\.dynamicTypeSize) var dynamicTypeSize
+    @Environment(Favourites.self) var favourites
+    
+    @State private var selectedFacility: Facility?
+    @State private var showingFacility = false
     
     let resort: Resort
     
@@ -38,7 +42,13 @@ struct ResortView: View {
                     
                 }
                 .padding(.vertical)
-                .background(.primary.opacity(0.1))
+                .background(
+                            LinearGradient(
+                                colors: [.blue, .white],
+                                startPoint: .topLeading,
+                                endPoint: .bottomTrailing
+                            )
+                        )
                 .dynamicTypeSize(...DynamicTypeSize.xxxLarge)
                 
                 Group {
@@ -46,18 +56,43 @@ struct ResortView: View {
                         .padding(.vertical)
                     Text("Facilities")
                         .font(.headline)
-                    Text(resort.facilities, format: .list(type: .and))
-                        .padding(.vertical)
+                    HStack {
+                        ForEach(resort.facilityTypes) { facility in
+                            Button {
+                                selectedFacility = facility
+                                showingFacility = true
+                            } label: {
+                                facility.icon
+                                    .font(.title)
+                            }
+                            .buttonStyle(.glass)
+                        }
+                    }
+                    .padding(.vertical)
                 }
                 .padding(.horizontal)
                 
+                Button(favourites.contains(resort) ? "Remove from Favourites" : "Add to Favourites") {
+                    if favourites.contains(resort) {
+                        favourites.remove(resort)
+                    } else {
+                        favourites.add(resort)
+                    }
+                }
+                .buttonStyle(.glassProminent)
+                .padding()
             }
         }
         .navigationTitle("\(resort.name), \(resort.country)")
         .navigationBarTitleDisplayMode(.inline)
+        .alert(selectedFacility?.name ?? "More information", isPresented: $showingFacility, presenting: selectedFacility) { _ in
+        } message: { facility in
+            Text(facility.description)
+        }
     }
 }
 
 #Preview {
     ResortView(resort: .example)
+        .environment(Favourites())
 }

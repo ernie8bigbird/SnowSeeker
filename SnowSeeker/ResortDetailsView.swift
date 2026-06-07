@@ -31,6 +31,8 @@ struct ResortDetailsView: View {
                 Text(size)
                     .font(.title3)
             }
+            .padding(10)
+            .glassEffect(.regular, in: .rect(cornerRadius: 16))
             
             VStack {
                 Text("Price")
@@ -38,6 +40,8 @@ struct ResortDetailsView: View {
                 Text(price)
                     .font(.title3)
             }
+            .padding(10)
+            .glassEffect(.regular, in: .rect(cornerRadius: 16))
             
         }
         .frame(maxWidth: .infinity)
